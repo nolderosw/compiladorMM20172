@@ -1,0 +1,51 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <!--<div class="col-lg-12">
+            <div class="text-center m-t-lg">
+                <h1>
+                    <%= @mainTitle %>
+                </h1>
+                <small>
+                    <%= @mainDesc %>
+                </small>
+            </div>
+        </div>
+        -->
+        <div class="col-lg-12">
+          <div class="ibox ">
+            <div class="ibox-title">
+              <h5>Editor do código</h5>
+            </div>
+            <div class="ibox-content">
+
+              <p  class="m-b-lg">
+                Escolha uma das opções e compile para gerar os arquivos .bin
+              </p>
+              <div style="cursor: pointer;" class="fileinput fileinput-new" data-provides="fileinput">
+                <span class="btn btn-default btn-file"><span class="fileinput-new">Abrir</span><span class="fileinput-exists">Alterar</span><input type="file" name="..."></span>
+                <span class="fileinput-filename"></span>
+                <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+              </div>
+              <div class="pull-right btn btn-danger">Compilar</div>
+              <textarea id="code1">
+
+              </textarea>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+
+        var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            styleActiveLine: true,
+            theme:"ambiance"
+        });
+
+    });
+</script>
