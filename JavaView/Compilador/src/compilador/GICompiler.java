@@ -1,8 +1,17 @@
 package compilador;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
@@ -15,22 +24,30 @@ public class GICompiler extends javax.swing.JFrame {
     public GICompiler() {
         initComponents();
         
+        //Run the thread to check funtions on the program.
         codeChanges codechanges = new codeChanges(this);
         Runnable runnable = codechanges;
         Thread thread = new Thread(runnable);
         thread.start();
+        
+        //Set the open file to just open txt files.
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt", "text");
+        OpenFile.setFileFilter(filter);
+        
+        //Set the window location to the center of the screen.
+        this.setLocationRelativeTo(null);
     }
     
     public void paintFunctions(String [] func, Color cor) {
         try {
-            Document code = jTextPane1.getDocument();
+            Document code = codeText.getDocument();
             String codePart = code.getText(0, code.getLength());
             int pos = 0;
             for (int i = 0; i < func.length; i++) {
                 while ((pos = codePart.indexOf(func[i], pos)) >= 0){
                         Color color = Color.BLUE;
-                        StyledDocument doc = jTextPane1.getStyledDocument();
-                        Style style = jTextPane1.addStyle("FuncStyle", null);
+                        StyledDocument doc = codeText.getStyledDocument();
+                        Style style = codeText.addStyle("FuncStyle", null);
                         StyleConstants.setForeground(style, cor);
                         StyleConstants.setBold(style, rootPaneCheckingEnabled);
                         doc.setCharacterAttributes(pos, func[i].length(), style, true);
@@ -45,9 +62,9 @@ public class GICompiler extends javax.swing.JFrame {
     }
     
     public void unPaintNoFunctions() {
-        StyledDocument code = jTextPane1.getStyledDocument();
-        Style style = jTextPane1.addStyle("defaut", null);
-        code.setCharacterAttributes(0, jTextPane1.getDocument().getLength(), style, true);
+        StyledDocument code = codeText.getStyledDocument();
+        Style style = codeText.addStyle("defaut", null);
+        code.setCharacterAttributes(0, codeText.getDocument().getLength(), style, true);
         
     }
 
@@ -65,64 +82,103 @@ public class GICompiler extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        OpenFile = new javax.swing.JFileChooser();
+        SaveFile = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btNewFile = new javax.swing.JLabel();
+        btOpenFile = new javax.swing.JLabel();
+        btSaveFile = new javax.swing.JLabel();
+        btCompile = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        codeText = new javax.swing.JTextPane();
+
+        SaveFile.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+        SaveFile.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Compiler - New File");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        btNewFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/compilador/img/newFileIcon2.png"))); // NOI18N
+        btNewFile.setToolTipText("New File");
+        btNewFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btNewFileMouseClicked(evt);
             }
         });
+
+        btOpenFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/compilador/img/openFileIcon2.png"))); // NOI18N
+        btOpenFile.setToolTipText("Open File");
+        btOpenFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btOpenFileMouseClicked(evt);
+            }
+        });
+
+        btSaveFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/compilador/img/saveFileIcon2.png"))); // NOI18N
+        btSaveFile.setToolTipText("Save File");
+        btSaveFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btSaveFileMouseClicked(evt);
+            }
+        });
+
+        btCompile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/compilador/img/compileProgram2.png"))); // NOI18N
+        btCompile.setToolTipText("Compile Program");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(429, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(145, 145, 145))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(btNewFile)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btOpenFile)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btSaveFile)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btCompile)
+                .addContainerGap(643, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(27, 27, 27))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btCompile)
+                    .addComponent(btSaveFile)
+                    .addComponent(btOpenFile)
+                    .addComponent(btNewFile))
+                .addGap(25, 25, 25))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextPane1.addKeyListener(new java.awt.event.KeyAdapter() {
+        codeText.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextPane1KeyPressed(evt);
+                codeTextKeyPressed(evt);
             }
         });
-        jScrollPane2.setViewportView(jTextPane1);
+        jScrollPane2.setViewportView(codeText);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(5, 5, 5)
                 .addComponent(jScrollPane2)
-                .addContainerGap())
+                .addGap(5, 5, 5))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(5, 5, 5)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                .addGap(5, 5, 5))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -135,7 +191,7 @@ public class GICompiler extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -143,16 +199,81 @@ public class GICompiler extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                
-        System.out.println(jTextPane1.getText());
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTextPane1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyPressed
+    private void codeTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeTextKeyPressed
         unPaintNoFunctions();
         //paintFunctions(functionsToColor, Color.blue);
         //paintFunctions(regs, Color.GREEN);
-    }//GEN-LAST:event_jTextPane1KeyPressed
+    }//GEN-LAST:event_codeTextKeyPressed
+
+    private void btNewFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btNewFileMouseClicked
+        file = null;
+        codeText.setText("");
+        setTitle("Compiler - New File");
+    }//GEN-LAST:event_btNewFileMouseClicked
+
+    private void btOpenFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btOpenFileMouseClicked
+        int status = OpenFile.showOpenDialog(rootPane);
+        if (status == JFileChooser.APPROVE_OPTION) {
+            file = OpenFile.getSelectedFile();
+            try {
+                Scanner sn = new Scanner(new FileInputStream(file));
+                String buffer = "";
+                while (sn.hasNext()) {
+                    buffer += sn.nextLine() + "\n";
+                }
+                codeText.setText(buffer);
+                setTitle("Compiler - " + file.getName());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(GICompiler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else {
+            System.out.println("Erro ao abrir o arquivo.");
+        }
+    }//GEN-LAST:event_btOpenFileMouseClicked
+
+    private void btSaveFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btSaveFileMouseClicked
+        if(file != null) {
+            try {
+                PrintWriter printWriter = new PrintWriter(file);
+                printWriter.write(codeText.getText());
+                printWriter.close();
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(GICompiler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else {
+            int Status = SaveFile.showOpenDialog(rootPane);
+            if(Status == JFileChooser.APPROVE_OPTION) {
+                String fileName = JOptionPane.showInputDialog("File name", "none.txt");
+                if (!fileName.contains(".txt")){
+                    fileName += ".txt";
+                }
+                File f = new File(SaveFile.getSelectedFile() + "\\" + fileName);
+                if (f.exists()) {
+                    JOptionPane.showMessageDialog(rootPane, "File already exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                else {
+                    try {
+                        f.createNewFile();
+                        PrintWriter printWriter = new PrintWriter(f);
+                        printWriter.write(codeText.getText());
+                        printWriter.close();
+                        setTitle("Compiler - " + fileName);
+                        file = f;
+                    } catch (IOException ex) {
+                        Logger.getLogger(GICompiler.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                } 
+            }
+            else {
+                JOptionPane.showMessageDialog(rootPane, "Error occured", "Can't save file", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btSaveFileMouseClicked
 
     
     public static void main(String args[]) {
@@ -188,15 +309,21 @@ public class GICompiler extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JFileChooser OpenFile;
+    private javax.swing.JFileChooser SaveFile;
+    private javax.swing.JLabel btCompile;
+    private javax.swing.JLabel btNewFile;
+    private javax.swing.JLabel btOpenFile;
+    private javax.swing.JLabel btSaveFile;
+    private javax.swing.JTextPane codeText;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
     private final String[] functionsToColor = {"ADD", "ADI", "SUB", "SUBI", "AND", "ANDI", "OR", "ORI",
                                           "EOR", "EORI", "NOT", "INC", "DEC", "MUL", "MULI", "SHL",
                                           "SHR", "MOV", "LDI", "IN", "OUT", "JMP", "RJMP", "BRL",
                                           "BRLE", "BRE", "BRNE", "BRGE", "BRG", "BRZ", "NOP", "RESET"};
     private final String[] regs = {"ra", "rb", "rc", "rd", "re", "rf", "rg", "rh", "ri", "rj", "xl", "xh"};
+    private File file = null;
 }
