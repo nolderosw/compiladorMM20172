@@ -103,30 +103,60 @@ public class GICompiler extends javax.swing.JFrame {
 
         btNewFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/compilador/img/newFileIcon2.png"))); // NOI18N
         btNewFile.setToolTipText("New File");
+        btNewFile.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204)));
         btNewFile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btNewFileMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btNewFileMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btNewFileMouseExited(evt);
             }
         });
 
         btOpenFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/compilador/img/openFileIcon2.png"))); // NOI18N
         btOpenFile.setToolTipText("Open File");
+        btOpenFile.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204)));
         btOpenFile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btOpenFileMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btOpenFileMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btOpenFileMouseExited(evt);
             }
         });
 
         btSaveFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/compilador/img/saveFileIcon2.png"))); // NOI18N
         btSaveFile.setToolTipText("Save File");
+        btSaveFile.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204)));
         btSaveFile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btSaveFileMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btSaveFileMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btSaveFileMouseExited(evt);
             }
         });
 
         btCompile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/compilador/img/compileProgram2.png"))); // NOI18N
         btCompile.setToolTipText("Compile Program");
+        btCompile.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204)));
+        btCompile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btCompileMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btCompileMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -141,7 +171,7 @@ public class GICompiler extends javax.swing.JFrame {
                 .addComponent(btSaveFile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btCompile)
-                .addContainerGap(643, Short.MAX_VALUE))
+                .addContainerGap(637, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,6 +304,38 @@ public class GICompiler extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btSaveFileMouseClicked
+
+    private void btSaveFileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btSaveFileMouseEntered
+        btSaveFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(120, 180, 240), 1, true));
+    }//GEN-LAST:event_btSaveFileMouseEntered
+
+    private void btSaveFileMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btSaveFileMouseExited
+        btSaveFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
+    }//GEN-LAST:event_btSaveFileMouseExited
+
+    private void btCompileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCompileMouseEntered
+        btCompile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(120, 180, 240), 1, true));
+    }//GEN-LAST:event_btCompileMouseEntered
+
+    private void btCompileMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCompileMouseExited
+        btCompile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
+    }//GEN-LAST:event_btCompileMouseExited
+
+    private void btOpenFileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btOpenFileMouseEntered
+        btOpenFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(120, 180, 240), 1, true));
+    }//GEN-LAST:event_btOpenFileMouseEntered
+
+    private void btOpenFileMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btOpenFileMouseExited
+        btOpenFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
+    }//GEN-LAST:event_btOpenFileMouseExited
+
+    private void btNewFileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btNewFileMouseEntered
+        btNewFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(120, 180, 240), 1, true));
+    }//GEN-LAST:event_btNewFileMouseEntered
+
+    private void btNewFileMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btNewFileMouseExited
+        btNewFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
+    }//GEN-LAST:event_btNewFileMouseExited
 
     
     public static void main(String args[]) {
