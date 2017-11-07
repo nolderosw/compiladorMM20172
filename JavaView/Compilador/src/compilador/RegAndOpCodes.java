@@ -39,9 +39,8 @@ public final class RegAndOpCodes {
         this.registradores.put("R7", "0111");
         this.registradores.put("R8", "1000");
         this.registradores.put("R9", "1001");
-        /*
-	faltam os registradores XL e XH
-        */
+        this.registradores.put("XL", "1010");
+        this.registradores.put("XH", "1011");
     }
     
     //alimenta o dicionário dos opcodes
