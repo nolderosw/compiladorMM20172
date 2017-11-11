@@ -43,6 +43,8 @@ public final class RegAndOpCodes {
 
         while(scanner.hasNextLine()){
             String line = scanner.nextLine();
+            if (line.length() < 17)
+                line = line + "00000000000000000".substring(line.length());
             bin1.append(line.substring(0, 8));
             bin1.append("\n");
             bin2.append(line.substring(8, 16));
