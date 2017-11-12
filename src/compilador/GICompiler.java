@@ -285,8 +285,7 @@ public class GICompiler extends javax.swing.JFrame {
             int Status = SaveFile.showSaveDialog(rootPane);
             if (Status == JFileChooser.APPROVE_OPTION) {
                 String fileName = JOptionPane.showInputDialog("File name", "none.txt");
-                System.out.println(fileName);
-                if (!fileName.contains(".txt")) {
+                if (!fileName.endsWith(".txt")) {
                     fileName += ".txt";
                 }
                 File f = new File(SaveFile.getSelectedFile().getAbsolutePath() + "\\" + fileName);
@@ -365,8 +364,7 @@ public class GICompiler extends javax.swing.JFrame {
 
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 showMessageDialog(null, "Compilação terminada, cheque o diretório do arquivo-fonte");
             }
         }
