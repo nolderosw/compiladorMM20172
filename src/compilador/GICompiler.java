@@ -67,7 +67,6 @@ public class GICompiler extends javax.swing.JFrame {
 
     }
 
-
     public String[] getFunctionsToColor() {
         return functionsToColor;
     }
