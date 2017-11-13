@@ -46,6 +46,7 @@ public final class RegAndOpCodes {
                 }
                 res.append(word);
             }
+            res.append("\n");
         }
         return res.toString();
     }

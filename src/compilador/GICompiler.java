@@ -342,7 +342,7 @@ public class GICompiler extends javax.swing.JFrame {
         btNewFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
     }//GEN-LAST:event_btNewFileMouseExited
 
-    private void btCompileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCompileMouseClicked
+    private void btCompileMouseClicked(java.awt.event.MouseEvent evt) {                                       
 
         String[] output = op.compileCode(codeText.getText());
 
