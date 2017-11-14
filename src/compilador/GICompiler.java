@@ -1,22 +1,18 @@
 package compilador;
 
-import java.awt.Color;
-import java.io.*;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import java.awt.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class GICompiler extends javax.swing.JFrame {
@@ -342,7 +338,7 @@ public class GICompiler extends javax.swing.JFrame {
         btNewFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 204), 1, true));
     }//GEN-LAST:event_btNewFileMouseExited
 
-    private void btCompileMouseClicked(java.awt.event.MouseEvent evt) {                                       
+    private void btCompileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCompileMouseClicked
 
         String[] output = op.compileCode(codeText.getText());
 
@@ -350,14 +346,17 @@ public class GICompiler extends javax.swing.JFrame {
         if (file == null) {
             showMessageDialog(null, "Salve o arquivo antes!");
         } else {
-            BufferedWriter out = null;
+
             try {
                 //Salva os 3 arquivos ".bin" no formato: nomedoarquivo#.bin, sendo # o identificador da parte do código binário
                 for (int i = 0; i < 3; i++) {
-                    FileWriter fstream = new FileWriter(file.getAbsolutePath().split("\\.")[0] + Integer.toString(i) + ".bin", false);
-                    out = new BufferedWriter(fstream);
-                    out.write(output[i]);
-                    out.close();
+                    FileOutputStream fstream = new FileOutputStream(file.getAbsolutePath().split("\\.")[0] + Integer.toString(i) + ".bin", false);
+                    Scanner scn = new Scanner(output[i]);
+                    while (scn.hasNextLine()) {
+                        String line = scn.nextLine();
+                        fstream.write(Integer.parseInt(line, 2));
+                    }
+                    fstream.close();
                 }
 
 
@@ -369,6 +368,10 @@ public class GICompiler extends javax.swing.JFrame {
         }
     }
 
+    private static byte[] getUtf8Bytes(String s) {
+        // Always specify encoding and not rely on default!
+        return s.getBytes(StandardCharsets.UTF_8);
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
