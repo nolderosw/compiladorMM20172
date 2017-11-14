@@ -1,6 +1,5 @@
 package compilador;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,35 +17,49 @@ public final class RegAndOpCodes {
     //mapas (dicionários) que contém os opcodes e os endereços de cada instrução e registradores, respectivamente
     private final Map<String, String> registradores = new HashMap<>();
     private final Map<String, String> opcodes = new HashMap<>();
+    private final Map<String, String> jumps = new HashMap<>();
 
     //criador que alimenta os dicionários com as chaves e os valores
     public RegAndOpCodes() {
         instanciaRegistradores();
         instanciaOpcodes();
+        instanciaJumps();
     }
 
     //Checa se uma string é composta apenas por números
     public static boolean isNumeric(String str) {
-        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+        return str.matches("-?\\d+(\\.\\d+)?");
     }
 
     //Procura qualquer número isolado (ou seja, cercado apenas por espaços na string e converte em binário)
-    public static String numToBin(String text) {
+    public String numToBin(String text) {
         Scanner scanner0 = new Scanner(text);
         StringBuilder res = new StringBuilder();
         while (scanner0.hasNextLine()) {
             String line = scanner0.nextLine();
             String[] words = line.split(" ");
 
-            for (String word : words
-                    ) {
-                if (isNumeric(word)) {
-                    word = Integer.toBinaryString(Integer.parseInt(word));
-                    word = "00000000".substring(word.length()) + word;
+            if (this.jumps.containsKey(words[0])) {
+                for (String word : words
+                        ) {
+                    if (isNumeric(word)) {
+                        word = Integer.toBinaryString(Integer.parseInt(word));
+                        word = "0000".substring(word.length()) + word;
+                    }
+                    res.append(word);
                 }
-                res.append(word);
+                res.append("\n");
+            } else {
+                for (String word : words
+                        ) {
+                    if (isNumeric(word)) {
+                        word = Integer.toBinaryString(Integer.parseInt(word));
+                        word = "00000000".substring(word.length()) + word;
+                    }
+                    res.append(word);
+                }
+                res.append("\n");
             }
-            res.append("\n");
         }
         return res.toString();
     }
@@ -54,11 +67,15 @@ public final class RegAndOpCodes {
     String[] compileCode(String text) {
 
         text = numToBin(text);
-
+        //TODO: Em vez de checar todo o dicionario, conferir se a palavra esta em um deles.
         for (Map.Entry<String, String> entry : registradores.entrySet()) {
             text = text.replace(entry.getKey(), entry.getValue());
         }
         for (Map.Entry<String, String> entry : opcodes.entrySet()) {
+            text = text.replace(entry.getKey(), entry.getValue());
+        }
+
+        for (Map.Entry<String, String> entry : jumps.entrySet()) {
             text = text.replace(entry.getKey(), entry.getValue());
         }
 
@@ -138,17 +155,22 @@ public final class RegAndOpCodes {
         this.opcodes.put("LDI", "10010");
         this.opcodes.put("IN", "10011");
         this.opcodes.put("OUT", "10100");
-        this.opcodes.put("JMP", "10101");
-        this.opcodes.put("RJMP", "10110");
-        this.opcodes.put("BRL", "10111");
-        this.opcodes.put("BRLE", "11000");
-        this.opcodes.put("BRE", "11001");
-        this.opcodes.put("BRNE", "11010");
-        this.opcodes.put("BRGE", "11011");
-        this.opcodes.put("BRG", "11100");
-        this.opcodes.put("BRZ", "11101");
         this.opcodes.put("NOP", "11110");
         this.opcodes.put("RESET", "11111");
+        this.opcodes.put("JMP", "10101");
+        this.opcodes.put("RJMP", "10110");
+    }
+
+    //alimenta o dicionário dos opcodes
+    public void instanciaJumps() {
+
+        this.jumps.put("BRL", "10111");
+        this.jumps.put("BRLE", "11000");
+        this.jumps.put("BRE", "11001");
+        this.jumps.put("BRNE", "11010");
+        this.jumps.put("BRGE", "11011");
+        this.jumps.put("BRG", "11100");
+        this.jumps.put("BRZ", "11101");
     }
 }
 
