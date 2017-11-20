@@ -159,6 +159,7 @@ public final class RegAndOpCodes {
         this.opcodes.put("RESET", "11111");
         this.opcodes.put("JMP", "10101");
         this.opcodes.put("RJMP", "10110");
+        this.opcodes.put("BRZ", "11101");
     }
 
     //alimenta o dicionário dos opcodes
@@ -170,7 +171,7 @@ public final class RegAndOpCodes {
         this.jumps.put("BRNE", "11010");
         this.jumps.put("BRGE", "11011");
         this.jumps.put("BRG", "11100");
-        this.jumps.put("BRZ", "11101");
+
     }
 }
 
